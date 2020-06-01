@@ -74,6 +74,7 @@ class CustomDrawer extends React.Component<Props> {
           dataSource={[
             {
               name: { instituteName },
+              id : 99
             },
           ]}
           bordered

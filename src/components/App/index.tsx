@@ -1,4 +1,5 @@
-import { Icon, Layout, Menu, message, Spin } from 'antd';
+import { Layout, Menu, message, Spin } from 'antd';
+import { SafetyCertificateOutlined, FileProtectOutlined } from '@ant-design/icons';
 import React, { Component } from 'react';
 import Web3 from 'web3';
 
@@ -144,78 +145,74 @@ class App extends Component<{}, IState> {
         }}
       />
     ) : (
-      <Spin spinning={pendingContract} tip="Deploying smart contract ...">
-        <Layout className="layout" style={{ height: '100vh' }}>
-          <Header>
-            <div
-              className="logo"
-              style={{
-                background: 'transparent',
-                margin: '0 24px 0 0',
-              }}
-            >
-              <img src={Logo} alt="logo" style={{ width: '120px' }} />
-            </div>
-            <Menu
-              theme="dark"
-              mode="horizontal"
-              defaultSelectedKeys={[currentSection]}
-              style={{ lineHeight: '64px' }}
-            >
-              <Menu.Item
-                key="verifier"
-                onClick={() => this.selectSection('verifier')}
+        <Spin spinning={pendingContract} tip="Deploying smart contract ...">
+          <Layout className="layout" style={{ height: '100vh' }}>
+            <Header>
+              <div
+                className="logo"
+                style={{
+                  background: 'transparent',
+                  margin: '0 24px 0 0',
+                }}
               >
-                <Icon
-                  type="safety-certificate"
-                  style={{ display: 'inline-block', verticalAlign: 'middle' }}
-                />
-                Verifier
-              </Menu.Item>
-              <Menu.Item
-                key="issuer"
-                onClick={() => this.selectSection('issuer')}
+                <img src={Logo} alt="logo" style={{ width: '120px' }} />
+              </div>
+              <Menu
+                theme="dark"
+                mode="horizontal"
+                defaultSelectedKeys={[currentSection]}
+                style={{ lineHeight: '64px' }}
               >
-                <Icon
-                  type="file-protect"
-                  style={{ display: 'inline-block', verticalAlign: 'middle' }}
-                />
+                <Menu.Item
+                  key="verifier"
+                  onClick={() => this.selectSection('verifier')}
+                >
+                  <SafetyCertificateOutlined />
+
+                </Menu.Item>
+                <Menu.Item
+                  key="issuer"
+                  onClick={() => this.selectSection('issuer')}
+                >
+                  <FileProtectOutlined
+                    style={{ display: 'inline-block', verticalAlign: 'middle' }}
+                  />
                 Issuer
               </Menu.Item>
-            </Menu>
-          </Header>
-          <Content style={{ padding: '0 50px' }} className="App">
-            <div style={{ background: '#fff', padding: 24, height: '93vh' }}>
-              {currentSection === 'issuer' ? (
-                <Issue
-                  MyContract={MyContract}
-                  contractAddress={contractAddress}
-                  account={account}
-                  getContractAddressList={this.state.getContractAddressList}
-                  createContract={(
-                    MTRoot: string,
-                    instituteName: string,
-                    logoUrl: string,
-                    yearOfGraduation: string,
-                    description: string,
-                  ) =>
-                    this.createContract(
-                      MTRoot,
-                      instituteName,
-                      logoUrl,
-                      yearOfGraduation,
-                      description,
-                    )
-                  }
-                />
-              ) : (
-                <Verify MyContract={MyContract} />
-              )}
-            </div>
-          </Content>
-        </Layout>
-      </Spin>
-    );
+              </Menu>
+            </Header>
+            <Content style={{ padding: '0 50px' }} className="App">
+              <div style={{ background: '#fff', padding: 24, height: '93vh' }}>
+                {currentSection === 'issuer' ? (
+                  <Issue
+                    MyContract={MyContract}
+                    contractAddress={contractAddress}
+                    account={account}
+                    getContractAddressList={this.state.getContractAddressList}
+                    createContract={(
+                      MTRoot: string,
+                      instituteName: string,
+                      logoUrl: string,
+                      yearOfGraduation: string,
+                      description: string,
+                    ) =>
+                      this.createContract(
+                        MTRoot,
+                        instituteName,
+                        logoUrl,
+                        yearOfGraduation,
+                        description,
+                      )
+                    }
+                  />
+                ) : (
+                    <Verify MyContract={MyContract} />
+                  )}
+              </div>
+            </Content>
+          </Layout>
+        </Spin>
+      );
   }
 }
 

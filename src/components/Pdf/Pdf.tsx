@@ -16,7 +16,7 @@ interface IState {
 
 class Pdf extends Component<Props, IState> {
   state = {
-    numPages: null,
+    numPages: 0,
     pageNumber: 1,
   };
 

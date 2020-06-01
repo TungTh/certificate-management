@@ -1,4 +1,5 @@
-import { Form, Icon, Input } from 'antd';
+import { Form, Input } from 'antd';
+import { HomeOutlined, LockOutlined } from '@ant-design/icons';
 import React from 'react';
 
 const FormItem = Form.Item;
@@ -31,8 +32,7 @@ class RevokeForm extends React.Component<Props> {
           })(
             <Input
               prefix={
-                <Icon
-                  type="home"
+                <HomeOutlined
                   style={{
                     color: 'rgba(0,0,0,.25)',
                     display: 'inline-block',
@@ -52,8 +52,7 @@ class RevokeForm extends React.Component<Props> {
           })(
             <Input
               prefix={
-                <Icon
-                  type="lock"
+                <LockOutlined
                   style={{
                     color: 'rgba(0,0,0,.25)',
                     display: 'inline-block',
@@ -70,6 +69,6 @@ class RevokeForm extends React.Component<Props> {
   }
 }
 
-const WrappedRevokeForm = Form.create()(RevokeForm);
+const WrappedRevokeForm = Form.useForm(RevokeForm);
 
 export default WrappedRevokeForm;

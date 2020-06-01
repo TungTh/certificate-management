@@ -1,4 +1,5 @@
-import { Button, Icon, List, message, Tabs, Tag, Upload } from 'antd';
+import { Button, List, message, Tabs, Tag, Upload } from 'antd';
+import { CloudUploadOutlined, DownloadOutlined, DeleteOutlined, UploadOutlined } from '@ant-design/icons';
 import sha256 from 'crypto-js/sha256';
 import JSZip from 'jszip';
 import React from 'react';
@@ -232,8 +233,7 @@ class Issue extends React.Component<Props, IState> {
           <TabPane
             tab={
               <span>
-                <Icon
-                  type="cloud-upload"
+                <CloudUploadOutlined
                   style={{ display: 'inline-block', verticalAlign: 'middle' }}
                 />
                 Issue certificates
@@ -261,8 +261,7 @@ class Issue extends React.Component<Props, IState> {
                   animationOut={'none' as any}
                   isVisible
                 >
-                  <Icon
-                    type="cloud-upload"
+                  <CloudUploadOutlined
                     style={{
                       fontSize: '70px',
                       color: COLOR.yellow,
@@ -299,8 +298,7 @@ class Issue extends React.Component<Props, IState> {
                     this.generateReceipt();
                   }}
                 >
-                  <Icon
-                    type="download"
+                  <DownloadOutlined 
                     style={{ display: 'inline-block', verticalAlign: 'middle' }}
                   />
                   Download blockchain receipt
@@ -318,8 +316,7 @@ class Issue extends React.Component<Props, IState> {
           <TabPane
             tab={
               <span>
-                <Icon
-                  type="delete"
+                <DeleteOutlined 
                   style={{ display: 'inline-block', verticalAlign: 'middle' }}
                 />
                 Revoke
@@ -347,8 +344,7 @@ class Issue extends React.Component<Props, IState> {
                 />
                 <Upload {...uploadProps} onChange={this.uploadForRevoking}>
                   <Button disabled={!this.state.selectedAddress}>
-                    <Icon
-                      type="upload"
+                  <UploadOutlined 
                       style={{
                         display: 'inline-block',
                         verticalAlign: 'middle',
@@ -363,7 +359,7 @@ class Issue extends React.Component<Props, IState> {
                   header={<h3>Created contract address list</h3>}
                   // border="true"
                   split
-                  dataSource={createdContractAddress}
+                  dataSource={[createdContractAddress]}
                   renderItem={item => (
                     <List.Item style={{ color: '#1890ff' }}>{item}</List.Item>
                   )}

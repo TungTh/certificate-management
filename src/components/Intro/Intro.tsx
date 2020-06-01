@@ -1,11 +1,12 @@
-import { Col, Icon, Row } from 'antd';
+import { Col, Row } from 'antd';
+import { FileProtectOutlined, CloudUploadOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import './Intro.css';
 
 export const Intro = props => (
-  <Row type="flex">
+  <Row >
     <Col span={12}>
       <div
         style={{
@@ -20,12 +21,11 @@ export const Intro = props => (
         onClick={() => {
           props.onClick('verifier');
         }}
-        onKeyDown={() => {}}
+        onKeyDown={() => { }}
         role="button"
         tabIndex={0}
       >
-        <Icon
-          type="file-protect"
+        <FileProtectOutlined
           style={{ fontSize: '70px', color: 'white' }}
           className="App-intro"
         />
@@ -48,12 +48,12 @@ export const Intro = props => (
         onClick={() => {
           props.onClick('issuer');
         }}
-        onKeyDown={() => {}}
+        onKeyDown={() => { }}
         role="button"
         tabIndex={0}
       >
-        <Icon
-          type="cloud-upload"
+        <CloudUploadOutlined
+
           style={{ fontSize: '70px', color: 'white' }}
           className="App-intro"
         />
