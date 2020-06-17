@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { CollectionCreateForm } from './Form';
+import IssuingBatchForm from './Form';
 
-class ModalForm extends React.Component {
+class IssuingBatchInfoModalForm extends React.Component {
   state = {
     visible: false,
   };
@@ -16,41 +16,30 @@ class ModalForm extends React.Component {
     this.setState({ visible: false });
   };
 
-  handleCreate = () => {
-    const { form } = this.formRef.props;
-    form.validateFields((err, values) => {
-      if (err) {
-        return;
-      }
+  onCreate = values => {
+    console.log('Received values of form: ', values);
+    this.props.createContractTrigger(values);
+    this.setState({ visible: false });
+  }
 
-      console.log('Received values of form: ', values);
-      this.props.createContractTrigger(values);
-      form.resetFields();
-      this.setState({ visible: false });
-    });
-  };
-
-  saveFormRef = formRef => {
-    this.formRef = formRef;
-  };
+ 
 
   render() {
     const { visible } = this.state;
     return (
       <div>
-        <CollectionCreateForm
-          wrappedComponentRef={this.saveFormRef}
+        <IssuingBatchForm
           visible={visible}
           onCancel={this.handleCancel}
-          onCreate={this.handleCreate}
+          onCreate={this.onCreate}
         />
       </div>
     );
   }
 }
 
-ModalForm.propTypes = {
+IssuingBatchInfoModalForm.propTypes = {
   createContractTrigger: PropTypes.func,
 };
 
-export default ModalForm;
+export default IssuingBatchInfoModalForm;

@@ -91,7 +91,6 @@ export const getContractAddressList = async () => {
   const web3 = new Web3(Web3.givenProvider || 'http://localhost:8545');
   console.log('web', web3);
   const rootContract = new web3.eth.Contract(rootAbi, rootAddressLocal);
-  console.log('rootContract here', rootContract);
   const result = await rootContract.methods.getContractAddressList().call();
   console.log('result of contract list here', result);
   return result;

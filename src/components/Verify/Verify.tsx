@@ -1,4 +1,5 @@
-import { Button, Icon, List, notification, Popconfirm, Steps, Tag } from 'antd';
+import { Button, List, notification, Popconfirm, Steps, Tag } from 'antd';
+import { ScanOutlined, SafetyCertificateOutlined } from '@ant-design/icons';
 import sha256 from 'crypto-js/sha256';
 import Lottie from 'lottie-react-web';
 import React from 'react';
@@ -29,7 +30,7 @@ const descriptionStep = data => (
   <List
     size="small"
     dataSource={data}
-    renderItem={item => <List.Item>{item}</List.Item>}
+    renderItem={item => <List.Item>item</List.Item>}
   />
 );
 
@@ -372,8 +373,7 @@ class Verify extends React.Component<Props, IState> {
               animationOut={'none' as any}
               isVisible
             >
-              <Icon
-                type="safety-certificate"
+              <SafetyCertificateOutlined
                 style={{
                   fontSize: '70px',
                   color: COLOR.yellow,
@@ -393,8 +393,7 @@ class Verify extends React.Component<Props, IState> {
         </div>
         {currentStep === 2 && (
           <Button type="primary" onClick={this.verifyCert}>
-            <Icon
-              type="scan"
+            <ScanOutlined
               style={{ display: 'inline-block', verticalAlign: 'middle' }}
             />
             Verify Certificate

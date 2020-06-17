@@ -14,6 +14,13 @@ import Verify from '../Verify/Verify';
 import './App.css';
 import Logo from './CertMana-logo.png';
 
+//Ref: https://stackoverflow.com/questions/12709074/how-do-you-explicitly-set-a-new-property-on-window-in-typescript?rq=1
+declare global {
+  interface Window {
+      ethereum:any;
+  }
+}
+
 interface IState {
   web3: any;
   institute: string;
@@ -42,6 +49,7 @@ class App extends Component<{}, IState> {
 
   async componentDidMount() {
     const { web3 } = this.state;
+    await window.ethereum.enable();
     const contractAddressList = await getContractAddressList();
     web3.eth.getAccounts().then(accounts => {
       const account = accounts[0];
@@ -167,7 +175,9 @@ class App extends Component<{}, IState> {
                   key="verifier"
                   onClick={() => this.selectSection('verifier')}
                 >
-                  <SafetyCertificateOutlined />
+                  <SafetyCertificateOutlined 
+                   style={{ display: 'inline-block', verticalAlign: 'middle' }}/>
+                   Verifier
 
                 </Menu.Item>
                 <Menu.Item

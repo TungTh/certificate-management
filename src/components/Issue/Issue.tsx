@@ -14,7 +14,7 @@ import {
   revokeCertificate,
 } from '../../libs/smartContractUtils';
 import { createMT } from '../../libs/verifymt';
-import ModalForm from '../ModalForm/ModalForm';
+import IssuingBatchInfoModalForm from '../ModalForm/ModalForm';
 import RevokeForm from '../RevokeForm/RevokeForm';
 import './Issue.css';
 
@@ -304,7 +304,7 @@ class Issue extends React.Component<Props, IState> {
                   Download blockchain receipt
                 </Button>
 
-                <ModalForm
+                <IssuingBatchInfoModalForm
                   ref={this.modal}
                   createContractTrigger={this.createContractTrigger}
                 />
