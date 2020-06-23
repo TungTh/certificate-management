@@ -4,11 +4,17 @@ import keccak256 from 'keccak256';
 const buf2hex = x => `0x${x.toString('hex')}`;
 
 export const verify = async (MyContract, proof, root, leaf) => {
-  const hashedLeaf = buf2hex(keccak256(leaf));
-  const verified = await MyContract.methods
-    .verify(proof, root, hashedLeaf)
-    .call();
-  return verified;
+  try {
+    const hashedLeaf = buf2hex(keccak256(leaf));
+    const verified = await MyContract.methods
+      .verify(proof, root, hashedLeaf)
+      .call();
+    return verified;
+  }
+  catch (e) {
+    console.log(e);
+    return undefined;
+  }
 };
 
 export const createMT = data => {
