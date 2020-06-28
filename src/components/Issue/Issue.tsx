@@ -1,4 +1,4 @@
-import { Button, List, message, Tabs, Tag, Upload } from 'antd';
+import { Button, List, message, Tabs, Tag, Upload, Spin } from 'antd';
 import { CloudUploadOutlined, DownloadOutlined, DeleteOutlined, UploadOutlined } from '@ant-design/icons';
 import sha256 from 'crypto-js/sha256';
 import JSZip from 'jszip';
@@ -55,7 +55,7 @@ interface IState {
   MTRoot: string;
   selectedAddress: string;
   reason: string;
-  createdContractAddress: string;
+  createdContractAddress: string[];
 }
 
 class Issue extends React.Component<Props, IState> {
@@ -88,7 +88,7 @@ class Issue extends React.Component<Props, IState> {
       MTRoot: '',
       selectedAddress: '',
       reason: '',
-      createdContractAddress: '',
+      createdContractAddress: [],
     };
     this.modal = React.createRef();
   }
@@ -101,12 +101,13 @@ class Issue extends React.Component<Props, IState> {
   }
 
   uploadFile = async (files: any) => {
-    this.modal.current.showModal();
     const fileList = files;
 
     const fileNamesArray: string[] = [];
-    this.setState({ waitingForFileUpload: true, fileList });
+    this.setState({ waitingForFileUpload: true, hashedCertArray: [], fileList });
     for (let i = 0; i < fileList.length; i++) {
+      // TODO: read student ID from json
+      // TODO: Define and check file format
       // take file name for student ID. Ex: ITITIU14076
       fileNamesArray.push(fileList[i].name);
     }
@@ -116,6 +117,7 @@ class Issue extends React.Component<Props, IState> {
     });
 
     // Uploads will push to the file input's `.files` array. Get the last uploaded file.
+    // Hash files and store the results
     for (let i = 0; i < fileList.length; i++) {
       try {
         let fileContents = await Issue.readUploadedFileAsText(fileList[i]);
@@ -134,10 +136,8 @@ class Issue extends React.Component<Props, IState> {
         });
       }
     }
-    this.setState({
-      waitingForFileUpload: false,
-    });
 
+    // Build a merkle tree for all certs
     const data = createMT(this.state.hashedCertArray);
     const { MTRoot, proofs } = data;
     this.setState({
@@ -145,11 +145,19 @@ class Issue extends React.Component<Props, IState> {
       disableButton: false,
       MTRoot,
     });
+
+    this.setState({
+      waitingForFileUpload: false,
+    });
+
+    this.modal.current.showModal();
+
   };
 
   createContractTrigger = async (values: any) => {
     const { MTRoot } = this.state;
     const { instituteName, logoUrl, yearOfGraduation, description } = values;
+    //TODO: await has no effect. Because: ??
     await this.props.createContract(
       MTRoot,
       instituteName,
@@ -241,82 +249,83 @@ class Issue extends React.Component<Props, IState> {
             }
             key="1"
           >
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                flexDirection: 'column',
-                width: '100%',
-              }}
-            >
-              <Dropzone
-                onDrop={this.uploadFile}
-                accept=".pdf,.doc,.docs,images/*"
-                multiple
-                className="dropzone"
+            <Spin spinning={this.state.waitingForFileUpload} size="large">
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexDirection: 'column',
+                  width: '100%',
+                }}
               >
-                <Animated
-                  animationIn="wobble"
-                  animationOut={'none' as any}
-                  isVisible
+                <Dropzone
+                  onDrop={this.uploadFile}
+                  accept=".pdf,.doc,.docs,images/*"
+                  multiple
+                  className="dropzone"
                 >
-                  <CloudUploadOutlined
-                    style={{
-                      fontSize: '70px',
-                      color: COLOR.yellow,
-                      cursor: 'pointer',
-                      marginBottom: '20px',
-                    }}
-                    className="App-intro"
-                  />
-                </Animated>
-                <p>
-                  Drop your{' '}
-                  <span style={{ fontWeight: 'bold', color: COLOR.blue }}>
-                    certificates
+                  <Animated
+                    animationIn="wobble"
+                    animationOut={'none' as any}
+                    isVisible
+                  >
+                    <CloudUploadOutlined
+                      style={{
+                        fontSize: '70px',
+                        color: COLOR.yellow,
+                        cursor: 'pointer',
+                        marginBottom: '20px',
+                      }}
+                      className="App-intro"
+                    />
+                  </Animated>
+                  <p>
+                    Drop your{' '}
+                    <span style={{ fontWeight: 'bold', color: COLOR.blue }}>
+                      certificates
                   </span>{' '}
                   here or click to select
                 </p>
-              </Dropzone>
-              <Tag color="blue" style={{ marginBottom: '50px' }}>
-                {this.state.fileNames.length} file(s) selected
+                </Dropzone>
+                <Tag color="blue" style={{ marginBottom: '50px' }}>
+                  {this.state.fileNames.length} file(s) selected
               </Tag>
-              <div
-                style={{
-                  width: 300,
-                  display: 'inline-block',
-                }}
-                className="App"
-              >
-                <Button
-                  size="large"
-                  type="primary"
-                  disabled={contractAddress ? false : disableButton}
-                  block
-                  onClick={() => {
-                    this.generateReceipt();
+                <div
+                  style={{
+                    width: 300,
+                    display: 'inline-block',
                   }}
+                  className="App"
                 >
-                  <DownloadOutlined 
-                    style={{ display: 'inline-block', verticalAlign: 'middle' }}
-                  />
+                  <Button
+                    size="large"
+                    type="primary"
+                    disabled={contractAddress ? false : disableButton}
+                    block
+                    onClick={() => {
+                      this.generateReceipt();
+                    }}
+                  >
+                    <DownloadOutlined
+                      style={{ display: 'inline-block', verticalAlign: 'middle' }}
+                    />
                   Download blockchain receipt
                 </Button>
 
-                <IssuingBatchInfoModalForm
-                  ref={this.modal}
-                  createContractTrigger={this.createContractTrigger}
-                />
+                  <IssuingBatchInfoModalForm
+                    ref={this.modal}
+                    createContractTrigger={this.createContractTrigger}
+                  />
+                </div>
               </div>
-            </div>
-
-            {this.state.waitingForFileUpload && <span>Uploading file...</span>}
+            </Spin>
+            {/* {this.state.waitingForFileUpload && <span>Uploading file...</span>} */}
           </TabPane>
           <TabPane
             tab={
               <span>
-                <DeleteOutlined 
+                <DeleteOutlined
                   style={{ display: 'inline-block', verticalAlign: 'middle' }}
                 />
                 Revoke
@@ -344,7 +353,7 @@ class Issue extends React.Component<Props, IState> {
                 />
                 <Upload {...uploadProps} onChange={this.uploadForRevoking}>
                   <Button disabled={!this.state.selectedAddress}>
-                  <UploadOutlined 
+                    <UploadOutlined
                       style={{
                         display: 'inline-block',
                         verticalAlign: 'middle',
@@ -359,7 +368,7 @@ class Issue extends React.Component<Props, IState> {
                   header={<h3>Created contract address list</h3>}
                   // border="true"
                   split
-                  dataSource={[createdContractAddress]}
+                  dataSource={createdContractAddress}
                   renderItem={item => (
                     <List.Item style={{ color: '#1890ff' }}>{item}</List.Item>
                   )}
