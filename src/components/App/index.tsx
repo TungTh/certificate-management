@@ -47,16 +47,22 @@ class App extends Component<{}, IState> {
     getContractAddressList: [],
   };
 
+  onAccountChange = (accounts) => {
+    this.setState({account: accounts[0]});
+    console.log(this.state.account);
+  }
+
   async componentDidMount() {
     const { web3 } = this.state;
-    await window.ethereum.enable();
+    const accounts = await window.ethereum.enable();
+
+    window.ethereum.on('accountsChanged', this.onAccountChange);
+
     const contractAddressList = await getContractAddressList();
-    web3.eth.getAccounts().then(accounts => {
-      const account = accounts[0];
-      this.setState({
-        account,
-        getContractAddressList: contractAddressList,
-      });
+    const account = accounts[0];
+    this.setState({
+      account,
+      getContractAddressList: contractAddressList,
     });
   }
 
