@@ -1,7 +1,6 @@
 export const rootAddressRinkeby = '0x9efd4724e03f003ab3cfe534499f87b8efb855e9';
 export const rootAddressRopsten = '0x9ebf8424616feef1c244d68fb3028ff98333e27b';
-export const rootAddressLocal = '0x1e13734D0C34A4602DF2a8e93C4Fd0991996F984';
-//TODO: update on new chain
+export const rootAddressLocal = '0xCFf9f3E7bE5870BFb0f83E400836F0Ac2a7bD3dC';
 export const abi: any = [
   {
     constant: false,

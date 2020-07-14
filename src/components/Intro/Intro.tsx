@@ -7,7 +7,7 @@ import './Intro.css';
 
 export const Intro = props => (
   <Row >
-    <Col span={12}>
+    <Col span={8}>
       <div
         style={{
           backgroundColor: '#ff4242',
@@ -15,7 +15,7 @@ export const Intro = props => (
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          flexDirection: 'column',
+          flexDirection: 'row',
           cursor: 'pointer',
         }}
         onClick={() => {
@@ -34,7 +34,7 @@ export const Intro = props => (
         </p>
       </div>
     </Col>
-    <Col span={12}>
+    <Col span={8}>
       <div
         style={{
           backgroundColor: '#1890ff',
@@ -42,7 +42,7 @@ export const Intro = props => (
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          flexDirection: 'column',
+          flexDirection: 'row',
           cursor: 'pointer',
         }}
         onClick={() => {
@@ -59,6 +59,33 @@ export const Intro = props => (
         />
         <p style={{ color: 'white', fontSize: '20px', marginTop: '15px' }}>
           Issuer
+        </p>
+      </div>
+    </Col>
+    <Col span={8}>
+      <div
+        style={{
+          backgroundColor: '#00ff00',
+          height: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexDirection: 'row',
+          cursor: 'pointer',
+        }}
+        onClick={() => {
+          props.onClick('select');
+        }}
+        onKeyDown={() => { }}
+        role="button"
+        tabIndex={0}
+      >
+        <FileProtectOutlined
+          style={{ fontSize: '70px', color: 'white' }}
+          className="App-intro"
+        />
+        <p style={{ color: 'white', fontSize: '20px', marginTop: '15px' }}>
+          Selective disclose certificate
         </p>
       </div>
     </Col>

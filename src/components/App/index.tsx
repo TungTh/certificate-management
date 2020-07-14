@@ -10,7 +10,7 @@ import {
 } from '../../libs/smartContractUtils';
 import { Intro } from '../Intro/Intro';
 import Issue from '../Issue/Issue';
-import Verify from '../Verify/Verify';
+import Select from '../select/select';
 import './App.css';
 import Logo from './CertMana-logo.png';
 
@@ -194,7 +194,16 @@ class App extends Component<{}, IState> {
                     style={{ display: 'inline-block', verticalAlign: 'middle' }}
                   />
                 Issuer
-              </Menu.Item>
+                </Menu.Item>
+                <Menu.Item
+                  key="select"
+                  onClick={() => this.selectSection('Select Discloser')}
+                >
+                  <FileProtectOutlined
+                    style={{ display: 'inline-block', verticalAlign: 'middle' }}
+                  />
+                Select
+                </Menu.Item>
               </Menu>
             </Header>
             <Content style={{ padding: '0 50px' }} className="App">
@@ -222,7 +231,7 @@ class App extends Component<{}, IState> {
                     }
                   />
                 ) : (
-                    <Verify MyContract={MyContract} />
+                    <Select />
                   )}
               </div>
             </Content>

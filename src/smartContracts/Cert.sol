@@ -17,7 +17,6 @@ contract Cert is Ownable {
         description= _description;
     }
     
-    // string hashedCertificate => string reasonForRevoke
     mapping (string => string) revocationList;
     
     

@@ -178,18 +178,22 @@ class Issue extends React.Component<Props, IState> {
     const blockchainReceipt = {
       contractAddress,
       proof: null,
+      /* section */
     };
+    /*check 2 files each student */
     for (let i = 0; i < fileNames.length; i++) {
       blockchainReceipt.proof = proofs[i];
       const receipt = new Blob([JSON.stringify(blockchainReceipt)], {
         type: 'json',
       });
       const folder = zip.folder(fileNames[i].split('.')[0]);
-      folder.file(
-        `${fileNames[i].split('.')[0]}_blockchainReceipt.json`,
-        receipt,
-      );
-      folder.file(fileNames[i], fileList[i]);
+      if (folder != null) {
+        folder.file(
+          `${fileNames[i].split('.')[0]}_blockchainReceipt.json`,
+          receipt,
+        );
+        folder.file(fileNames[i], fileList[i]);
+      }
     }
 
     zip.generateAsync({ type: 'blob' }).then((content: any) => {

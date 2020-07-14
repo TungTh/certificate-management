@@ -19,7 +19,7 @@ export const verify = async (MyContract, proof, root, leaf) => {
 
 export const createMT = data => {
   const leaves = data.map(x => keccak256(x)).sort(Buffer.compare);
-  const tree = new MerkleTree(leaves, keccak256);
+  const tree = new MerkleTree(leaves, keccak256, {sort:true});
   const root = buf2hex(tree.getRoot());
   const proofs = [];
   for (let i = 0; i < leaves.length; i++) {
