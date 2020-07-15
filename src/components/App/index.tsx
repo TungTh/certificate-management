@@ -11,13 +11,14 @@ import {
 import { Intro } from '../Intro/Intro';
 import Issue from '../Issue/Issue';
 import Select from '../select/select';
+import Verify from '../Verify/Verify';
 import './App.css';
 import Logo from './CertMana-logo.png';
 
 //Ref: https://stackoverflow.com/questions/12709074/how-do-you-explicitly-set-a-new-property-on-window-in-typescript?rq=1
 declare global {
   interface Window {
-      ethereum:any;
+    ethereum: any;
   }
 }
 
@@ -48,7 +49,7 @@ class App extends Component<{}, IState> {
   };
 
   onAccountChange = (accounts) => {
-    this.setState({account: accounts[0]});
+    this.setState({ account: accounts[0] });
     console.log(this.state.account);
   }
 
@@ -181,8 +182,8 @@ class App extends Component<{}, IState> {
                   key="verifier"
                   onClick={() => this.selectSection('verifier')}
                 >
-                  <SafetyCertificateOutlined 
-                   style={{ display: 'inline-block', verticalAlign: 'middle' }}/>
+                  <SafetyCertificateOutlined
+                    style={{ display: 'inline-block', verticalAlign: 'middle' }} />
                    Verifier
 
                 </Menu.Item>
@@ -197,7 +198,7 @@ class App extends Component<{}, IState> {
                 </Menu.Item>
                 <Menu.Item
                   key="select"
-                  onClick={() => this.selectSection('Select Discloser')}
+                  onClick={() => this.selectSection('Select')}
                 >
                   <FileProtectOutlined
                     style={{ display: 'inline-block', verticalAlign: 'middle' }}
@@ -230,9 +231,17 @@ class App extends Component<{}, IState> {
                       )
                     }
                   />
-                ) : (
-                    <Select />
-                  )}
+                ) :
+                  (currentSection === 'verifier' ?
+                    (
+                      <Verify MyContract={MyContract} />
+                    )
+                    :
+                    (
+                      <Select />
+                    )
+                  )
+                }
               </div>
             </Content>
           </Layout>

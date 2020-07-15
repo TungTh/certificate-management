@@ -85,7 +85,7 @@ export const Intro = props => (
           className="App-intro"
         />
         <p style={{ color: 'white', fontSize: '20px', marginTop: '15px' }}>
-          Selective disclose certificate
+          Selective disclosure certificate
         </p>
       </div>
     </Col>
