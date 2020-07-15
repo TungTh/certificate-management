@@ -11,8 +11,6 @@ interface ISection {
     id: number,
     name: string,
     proof: any[],
-    revocationCheckHash: any[],
-    image: any,
     mandatory: any
 }
 
